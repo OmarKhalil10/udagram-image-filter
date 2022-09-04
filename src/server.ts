@@ -34,14 +34,17 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
   app.get('/filteredimage' , async (req:Request, res:Response) => {
     
-    const img_url = req.query.img_url.toString();
+    // get the image url
+    const img_url:string  = req.query.img_url;
     
+    // Throw errors if there's no image url
     if (!img_url) {
       res.status(400).send('Please add an image url');
     }
     
-    const filtered_img = await filterImageFromURL(img_url);
+    const filtered_img:string = await filterImageFromURL(img_url);
 
+    // display the image of the sended url and then delete it
     res.status(200).sendFile(filtered_img, () => {
       deleteLocalFiles([filtered_img]);
     });
